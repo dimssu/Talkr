@@ -1,0 +1,26 @@
+{
+  "name": "talkr-test",
+  "version": "1.0.2",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "copy-css": "cpx \"src/components/*.css\" dist/components/",
+    "build": "tsc && npm run copy-css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.6",
+    "cpx": "^1.5.0",
+    "sass": "^1.89.0",
+    "typescript": "^5.8.3"
+  },
+  "files": [
+    "dist"
+  ]
+}
