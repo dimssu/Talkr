@@ -1,23 +1,23 @@
-# Talkr Chatbot Package
+# Cha-ai Chatbot Package
 
 A simple, easily installable chatbot component for React applications.
 
 ## Installation
 
 ```bash
-npm install talkr-test
+npm install cha-ai
 ```
 
 ## Usage
 
 ```tsx
-import { ChatBot } from 'talkr-test';
-import 'talkr-test/dist/components/ChatBot.css';
-import 'talkr-test/dist/components/ChatInput.css';
-import 'talkr-test/dist/components/ChatMessage.css';
-import 'talkr-test/dist/components/ChatSuggestions.css';
-import 'talkr-test/dist/components/ChatFeedback.css';
-import 'talkr-test/dist/components/ChatFileUpload.css';
+import { ChatBot } from 'cha-ai';
+import 'cha-ai/dist/components/ChatBot.css';
+import 'cha-ai/dist/components/ChatInput.css';
+import 'cha-ai/dist/components/ChatMessage.css';
+import 'cha-ai/dist/components/ChatSuggestions.css';
+import 'cha-ai/dist/components/ChatFeedback.css';
+import 'cha-ai/dist/components/ChatFileUpload.css';
 
 function App() {
   return <ChatBot backendUrl="YOUR_BACKEND_URL" />;
