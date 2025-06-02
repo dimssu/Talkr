@@ -1,6 +1,7 @@
 .messageContainer {
   display: flex;
   margin-bottom: 8px;
+  flex-direction: row;
 }
 .messageContainer.userMessage {
   justify-content: flex-end;
