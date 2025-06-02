@@ -41,6 +41,10 @@
   font-size: 14px;
   line-height: 1.4;
   word-break: break-word;
+
+  p {
+    margin: 0 !important;
+  }
 }
 
 .timestamp {
