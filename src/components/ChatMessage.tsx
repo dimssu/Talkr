@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import './ChatMessage.css';
+import { marked } from 'marked';
+import DOMPurify from 'dompurify';
 
 interface ChatMessageProps {
   message: {
@@ -57,6 +59,9 @@ export const ChatMessage = ({
 
   const containerClass = `messageContainer ${message.sender === 'user' ? 'userMessage' : 'botMessage'}`;
 
+  // Markdown rendering
+  const htmlContent = DOMPurify.sanitize((marked as any).parseSync ? (marked as any).parseSync(message.content) : marked(message.content));
+
   return (
     <div className={containerClass}>
       {message.sender === 'bot' && botAvatarUrl && (
@@ -65,7 +70,7 @@ export const ChatMessage = ({
         </div>
       )}
       <div className="messageContent" style={messageStyle}>
-        <div className="messageText">{message.content}</div>
+        <div className="messageText" dangerouslySetInnerHTML={{ __html: htmlContent }} />
         {showTimestamp && (
           <div className="timestamp">{timeAgo}</div>
         )}
