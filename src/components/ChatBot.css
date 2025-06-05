@@ -195,7 +195,7 @@
 
 .messageContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 4px;
   animation: fadeIn 0.3s ease-out;
 }
