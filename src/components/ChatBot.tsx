@@ -98,6 +98,15 @@ export const ChatBot = ({
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Scroll to bottom when chat is opened
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 0);
+    }
+  }, [isOpen]);
   
   const initializeWithWelcome = () => {
     if (welcomeMessage) {
@@ -326,8 +335,9 @@ export const ChatBot = ({
             )}
             
             {messages.map(message => (
-              <div key={message.id} className="messageContainer">
+              <>
                 <ChatMessage
+                  key={message?.id}
                   message={message}
                   styling={styling}
                   showTimestamp={showTimestamps}
@@ -340,7 +350,7 @@ export const ChatBot = ({
                     styling={styling}
                   />
                 )}
-              </div>
+              </>
             ))}
             
             {isLoading && (
