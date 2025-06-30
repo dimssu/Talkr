@@ -29,6 +29,7 @@ export const ChatBot = ({
   onAfterResponse,
   maxHeight = '500px',
   persistChat = false,
+  chatId = 'default',
   className = '',
   enableFileUpload = false,
   enableFeedback = false,
@@ -69,7 +70,8 @@ export const ChatBot = ({
   
   useEffect(() => {
     if (persistChat) {
-      const savedMessages = localStorage.getItem('chatbot_messages');
+      const storageKey = `chatbot_messages_${chatId}`;
+      const savedMessages = localStorage.getItem(storageKey);
       if (savedMessages) {
         try {
           const parsedMessages = JSON.parse(savedMessages);
@@ -88,13 +90,14 @@ export const ChatBot = ({
     } else {
       initializeWithWelcome();
     }
-  }, [welcomeMessage, persistChat]);
+  }, [welcomeMessage, persistChat, chatId]);
   
   useEffect(() => {
     if (persistChat && messages.length > 0) {
-      localStorage.setItem('chatbot_messages', JSON.stringify(messages));
+      const storageKey = `chatbot_messages_${chatId}`;
+      localStorage.setItem(storageKey, JSON.stringify(messages));
     }
-  }, [messages, persistChat]);
+  }, [messages, persistChat, chatId]);
   
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

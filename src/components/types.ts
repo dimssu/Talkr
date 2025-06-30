@@ -79,6 +79,8 @@ export interface ChatBotProps {
   maxHeight?: string;
   /** Whether to persist chat history in localStorage */
   persistChat?: boolean;
+  /** Unique identifier for this chat instance (used with persistChat to separate chat histories) */
+  chatId?: string;
   /** Custom class name for the container */
   className?: string;
   /** Enable file upload functionality */
