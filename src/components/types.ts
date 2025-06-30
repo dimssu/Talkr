@@ -69,6 +69,8 @@ export interface ChatBotProps {
   showTimestamps?: boolean;
   /** Custom avatar URL for the bot */
   botAvatarUrl?: string;
+  /** Custom icon for the chat button (URL string or React component) */
+  chatButtonIcon?: string | React.ReactNode;
   /** Function to call before sending message to backend */
   onBeforeSend?: (message: string) => string | false;
   /** Function to call after receiving response */

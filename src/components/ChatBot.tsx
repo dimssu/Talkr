@@ -24,6 +24,7 @@ export const ChatBot = ({
   headerTitle = 'Chat Assistant',
   showTimestamps = false,
   botAvatarUrl,
+  chatButtonIcon,
   onBeforeSend,
   onAfterResponse,
   maxHeight = '500px',
@@ -305,6 +306,24 @@ export const ChatBot = ({
 
   const containerClassName = `chatbotContainer ${positionClass} ${className}`.trim();
   
+  // Render custom chat button icon or default SVG
+  const renderChatButtonIcon = () => {
+    if (typeof chatButtonIcon === 'string') {
+      // If it's a URL string, render as img
+      return <img src={chatButtonIcon} alt="Chat" style={{ width: '28px', height: '28px' }} />;
+    } else if (chatButtonIcon) {
+      // If it's a React component, render it directly
+      return chatButtonIcon;
+    } else {
+      // Default SVG icon
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      );
+    }
+  };
+  
   return (
     <div 
       className={containerClassName}
@@ -407,9 +426,7 @@ export const ChatBot = ({
             ...(styling.buttonStyle || {})
           }}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
+          {renderChatButtonIcon()}
         </button>
       )}
     </div>
