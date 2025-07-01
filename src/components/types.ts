@@ -8,6 +8,8 @@ export interface ChatBotStyling {
   bodyStyle?: React.CSSProperties;
   windowStyle?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
+  chatButtonIconStyle?: React.CSSProperties;
+  customChatButtonStyle?: React.CSSProperties;
   widgetColor?: string;
   textColor?: string;
   fontFamily?: string;
@@ -71,6 +73,8 @@ export interface ChatBotProps {
   botAvatarUrl?: string;
   /** Custom icon for the chat button (URL string or React component) */
   chatButtonIcon?: string | React.ReactNode;
+  /** Custom chat button component (JSX component, Lottie URL, or image URL) */
+  customChatButton?: string | React.ReactNode;
   /** Function to call before sending message to backend */
   onBeforeSend?: (message: string) => string | false;
   /** Function to call after receiving response */

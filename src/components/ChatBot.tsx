@@ -25,6 +25,7 @@ export const ChatBot = ({
   showTimestamps = false,
   botAvatarUrl,
   chatButtonIcon,
+  customChatButton,
   onBeforeSend,
   onAfterResponse,
   maxHeight = '500px',
@@ -312,8 +313,25 @@ export const ChatBot = ({
   // Render custom chat button icon or default SVG
   const renderChatButtonIcon = () => {
     if (typeof chatButtonIcon === 'string') {
-      // If it's a URL string, render as img
-      return <img src={chatButtonIcon} alt="Chat" style={{ width: '28px', height: '28px' }} />;
+      // Check if it's a Lottie URL
+      if (chatButtonIcon.includes('lottie.host')) {
+        return (
+          <iframe 
+            src={chatButtonIcon}
+            style={{ 
+              width: '28px', 
+              height: '28px', 
+              border: 'none', 
+              background: 'transparent', 
+              pointerEvents: 'none',
+              ...(styling.chatButtonIconStyle || {}) 
+            }}
+            title="Chat button animation"
+          />
+        );
+      }
+      // If it's a regular URL string, render as img
+      return <img src={chatButtonIcon} alt="Chat" style={{ width: '28px', height: '28px', pointerEvents: 'none', ...(styling.chatButtonIconStyle || {}) }} />;
     } else if (chatButtonIcon) {
       // If it's a React component, render it directly
       return chatButtonIcon;
@@ -325,6 +343,45 @@ export const ChatBot = ({
         </svg>
       );
     }
+  };
+  
+  // Render custom chat button content
+  const renderCustomChatButton = () => {
+    if (typeof customChatButton === 'string') {
+      // Check if it's a Lottie URL
+      if (customChatButton.includes('lottie.host')) {
+        return (
+          <iframe 
+            src={customChatButton}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              border: 'none', 
+              background: 'transparent', 
+              pointerEvents: 'none'
+            }}
+            title="Custom chat button animation"
+          />
+        );
+      }
+      // If it's a regular URL string, render as img
+      return (
+        <img 
+          src={customChatButton} 
+          alt="Chat" 
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover',
+            pointerEvents: 'none'
+          }} 
+        />
+      );
+    } else if (customChatButton) {
+      // If it's a React component, render it directly
+      return customChatButton;
+    }
+    return null;
   };
   
   return (
@@ -419,18 +476,37 @@ export const ChatBot = ({
           </footer>
         </div>
       ) : (
-        <button
-          className="chatButton"
-          onClick={toggleChat}
-          aria-label="Open chat"
-          style={{
-            backgroundColor: styling.widgetColor || '#4f46e5',
-            color: styling.textColor || '#ffffff',
-            ...(styling.buttonStyle || {})
-          }}
-        >
-          {renderChatButtonIcon()}
-        </button>
+        customChatButton ? (
+          <div 
+            className="customChatButtonWrapper"
+            onClick={toggleChat} 
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleChat();
+              }
+            }}
+            aria-label="Open chat"
+            style={styling.customChatButtonStyle}
+          >
+            {renderCustomChatButton()}
+          </div>
+        ) : (
+          <button
+            className="chatButton"
+            onClick={toggleChat}
+            aria-label="Open chat"
+            style={{
+              backgroundColor: styling.widgetColor || '#4f46e5',
+              color: styling.textColor || '#ffffff',
+              ...(styling.buttonStyle || {})
+            }}
+          >
+            {renderChatButtonIcon()}
+          </button>
+        )
       )}
     </div>
   );
