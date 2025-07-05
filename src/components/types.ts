@@ -102,4 +102,6 @@ export interface ChatBotProps {
   allowedFileTypes?: string[];
   /** Maximum file size in MB */
   maxFileSizeMB?: number;
+  /** Word limit for LLM responses (default: 150) */
+  llmWordLimit?: number;
 } 

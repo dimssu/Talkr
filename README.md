@@ -103,6 +103,7 @@ This example shows how to use the chatbot with OpenAI directly, passing your API
 | `onFileUpload`      | `(file: File) => Promise<void>`         | Called when a file is uploaded |
 | `allowedFileTypes`  | `string[]`                             | Allowed file types for upload |
 | `maxFileSizeMB`     | `number`                               | Max file size in MB |
+| `llmWordLimit`      | `number`                               | Word limit for LLM responses (default: 150) |
 | `className`         | `string`                               | Custom class name for the container |
 
 ### Styling Props (`ChatBotStyling`)
@@ -263,3 +264,14 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ## License
 
 MIT 
+
+---
+
+## LLM Word Limit
+- Use the `llmWordLimit` prop to control the maximum number of words in the LLM's response.
+- Default: `150`
+- The chatbot will instruct the LLM to limit its response accordingly.
+
+```tsx
+<ChatBot llmWordLimit={100} />
+``` 

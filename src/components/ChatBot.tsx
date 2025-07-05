@@ -9,6 +9,8 @@ import { ChatFileUpload } from './ChatFileUpload';
 import './ChatBot.css';
 import { getLlmConfig } from '../llmConfigs';
 
+const CONTEXT_MESSAGE_COUNT = 5; // Number of messages to use as context
+
 export const ChatBot = ({
   backendUrl,
   directLlmConfig: directLlmConfigProp,
@@ -39,6 +41,7 @@ export const ChatBot = ({
   onFileUpload,
   allowedFileTypes,
   maxFileSizeMB,
+  llmWordLimit = 150,
 }: ChatBotProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<MessageType[]>([]);
@@ -152,13 +155,21 @@ export const ChatBot = ({
     setIsLoading(true);
     setError(null);
     
+    // Prepare context from last N messages (excluding the current user message)
+    const contextMessages = [...messages].slice(-CONTEXT_MESSAGE_COUNT);
+    let contextString = contextMessages.map(msg => `${msg.sender === 'user' ? 'User' : 'Bot'}: ${msg.content}`).join('\n');
+    // Add word limit instruction
+    if (llmWordLimit) {
+      contextString += `\nPlease limit your response to ${llmWordLimit} words.`;
+    }
+    
     try {
       let botResponse: string;
       
       if (directLlmConfig && !backendUrl) {
-        botResponse = await callDirectLlm(content, directLlmConfig);
+        botResponse = await callDirectLlm(content, directLlmConfig, contextString);
       } else if (backendUrl) {
-        botResponse = await callBackendApi(content, backendUrl);
+        botResponse = await callBackendApi(content, backendUrl, contextString);
       } else {
         throw new Error('Either backendUrl or directLlmConfig must be provided');
       }
@@ -183,7 +194,7 @@ export const ChatBot = ({
     }
   };
   
-  const callDirectLlm = async (content: string, config: typeof directLlmConfig): Promise<string> => {
+  const callDirectLlm = async (content: string, config: typeof directLlmConfig, context: string): Promise<string> => {
     if (!config) throw new Error('LLM configuration is missing');
 
     try {
@@ -238,7 +249,7 @@ export const ChatBot = ({
     }
   };
   
-  const callBackendApi = async (content: string, url: string): Promise<string> => {
+  const callBackendApi = async (content: string, url: string, context: string): Promise<string> => {
     try {
       const response = await fetch(url, {
         method: 'POST',
