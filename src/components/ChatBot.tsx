@@ -492,20 +492,20 @@ export const ChatBot = ({
             style={styling.customChatButtonStyle}
           >
             {renderCustomChatButton()}
-          </div>
-        ) : (
-          <button
+        </div>
+      ) : (
+        <button
             className="chatButton"
-            onClick={toggleChat}
-            aria-label="Open chat"
-            style={{
-              backgroundColor: styling.widgetColor || '#4f46e5',
-              color: styling.textColor || '#ffffff',
-              ...(styling.buttonStyle || {})
-            }}
-          >
+          onClick={toggleChat}
+          aria-label="Open chat"
+          style={{
+            backgroundColor: styling.widgetColor || '#4f46e5',
+            color: styling.textColor || '#ffffff',
+            ...(styling.buttonStyle || {})
+          }}
+        >
             {renderChatButtonIcon()}
-          </button>
+        </button>
         )
       )}
     </div>

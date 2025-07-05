@@ -8,6 +8,7 @@ export interface ChatBotStyling {
   bodyStyle?: React.CSSProperties;
   windowStyle?: React.CSSProperties;
   buttonStyle?: React.CSSProperties;
+  sendButtonTextColor?: string;
   chatButtonIconStyle?: React.CSSProperties;
   customChatButtonStyle?: React.CSSProperties;
   widgetColor?: string;

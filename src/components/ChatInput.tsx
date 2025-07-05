@@ -7,6 +7,7 @@ interface ChatInputProps {
   styling?: {
     widgetColor?: string;
     textColor?: string;
+    sendButtonTextColor?: string;
   };
   disabled?: boolean;
 }
@@ -36,7 +37,7 @@ export const ChatInput = ({
   
   const buttonStyle = {
     backgroundColor: styling.widgetColor || '#4f46e5',
-    color: styling.textColor || '#ffffff',
+    color: styling.sendButtonTextColor || '#ffffff',
   };
   
   return (
