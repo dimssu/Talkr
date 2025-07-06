@@ -61,7 +61,7 @@ export const ChatMessage = ({
 
   // Markdown rendering
   const htmlContent = DOMPurify.sanitize((marked as any).parseSync ? (marked as any).parseSync(message.content) : marked(message.content));
-
+  
   return (
     <div className={containerClass}>
       {message.sender === 'bot' && botAvatarUrl && (

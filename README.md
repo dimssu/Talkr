@@ -104,6 +104,7 @@ This example shows how to use the chatbot with OpenAI directly, passing your API
 | `allowedFileTypes`  | `string[]`                             | Allowed file types for upload |
 | `maxFileSizeMB`     | `number`                               | Max file size in MB |
 | `llmWordLimit`      | `number`                               | Word limit for LLM responses (default: 150) |
+| `getDynamicContext`| `(message: string) => string \| Promise<string>` | Function to generate dynamic context for the LLM call based on the user message. If provided, overrides the default context logic. |
 | `className`         | `string`                               | Custom class name for the container |
 
 ### Styling Props (`ChatBotStyling`)
@@ -271,6 +272,24 @@ MIT
 - Use the `llmWordLimit` prop to control the maximum number of words in the LLM's response.
 - Default: `150`
 - The chatbot will instruct the LLM to limit its response accordingly.
+
+---
+
+## Dynamic Context Generation
+- Use the `getDynamicContext` prop to provide custom context for each LLM call based on the user message.
+- The function receives the user message and should return a string (or Promise<string>) to be used as context.
+- The chat history and word limit will be appended automatically.
+
+```tsx
+<ChatBot
+  getDynamicContext={message => {
+    if (message.includes('React')) {
+      return 'The user is asking about React. Provide web development context.';
+    }
+    return 'General context for the conversation.';
+  }}
+/>
+```
 
 ```tsx
 <ChatBot llmWordLimit={100} />

@@ -42,6 +42,7 @@ export const ChatBot = ({
   allowedFileTypes,
   maxFileSizeMB,
   llmWordLimit = 150,
+  getDynamicContext,
 }: ChatBotProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<MessageType[]>([]);
@@ -155,12 +156,32 @@ export const ChatBot = ({
     setIsLoading(true);
     setError(null);
     
-    // Prepare context from last N messages (excluding the current user message)
-    const contextMessages = [...messages].slice(-CONTEXT_MESSAGE_COUNT);
-    let contextString = contextMessages.map(msg => `${msg.sender === 'user' ? 'User' : 'Bot'}: ${msg.content}`).join('\n');
-    // Add word limit instruction
-    if (llmWordLimit) {
-      contextString += `\nPlease limit your response to ${llmWordLimit} words.`;
+    let contextString = '';
+    if (typeof getDynamicContext === 'function') {
+      contextString = await getDynamicContext(content);
+      // Attach context prop if provided
+      if (context) {
+        contextString = `${context}\n${contextString}`;
+      }
+      // Attach history to the context string
+      const contextMessages = [...messages].slice(-CONTEXT_MESSAGE_COUNT);
+      const historyString = contextMessages.map(msg => `${msg.sender === 'user' ? 'User' : 'Bot'}: ${msg.content}`).join('\n');
+      if (historyString) {
+        contextString += `\nChat History:\n${historyString}`;
+      }
+      if (llmWordLimit) {
+        contextString += `\nPlease limit your response to ${llmWordLimit} words.`;
+      }
+    } else {
+      // Default context logic
+      const contextMessages = [...messages].slice(-CONTEXT_MESSAGE_COUNT);
+      contextString = contextMessages.map(msg => `${msg.sender === 'user' ? 'User' : 'Bot'}: ${msg.content}`).join('\n');
+      if (context) {
+        contextString = `${context}\n${contextString}`;
+      }
+      if (llmWordLimit) {
+        contextString += `\nPlease limit your response to ${llmWordLimit} words.`;
+      }
     }
     
     try {

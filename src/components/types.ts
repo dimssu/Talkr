@@ -104,4 +104,6 @@ export interface ChatBotProps {
   maxFileSizeMB?: number;
   /** Word limit for LLM responses (default: 150) */
   llmWordLimit?: number;
+  /** Function to generate dynamic context for the LLM call based on the user message. If provided, overrides the default context logic. */
+  getDynamicContext?: (message: string) => string | Promise<string>;
 } 
